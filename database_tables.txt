@@ -1,0 +1,77 @@
+CREATE DATABASE hotel_db ;
+CREATE TABLE users_app (
+    Id_user INT(11) PRIMARY KEY AUTO_INCREMENT,
+    Nom VARCHAR(50),
+    Prenom VARCHAR(50),
+    Username VARCHAR(20),
+    Password VARCHAR(255),
+    Type VARCHAR(10),
+    Etat VARCHAR(30)
+);
+
+CREATE TABLE chambre (
+    Id_chambre INT(11) PRIMARY KEY AUTO_INCREMENT,
+    Numero_chambre VARCHAR(50),
+    Nombre_adultes_enfants_ch INT(11),
+    Renfort_chambre TINYINT(1),
+    Etage_chambre INT(11),
+    Nbr_lits_chambre INT(11),
+    Id_type INT(11),
+    Id_capacite INT(11),
+    Id_tarif INT(11),
+    Photo TEXT,
+    FOREIGN KEY (Id_type) REFERENCES type_chambre(Id_type),
+    FOREIGN KEY (Id_capacite) REFERENCES capacite_chambre(Id_capacite),
+    FOREIGN KEY (Id_tarif) REFERENCES tarif_chambre(Id_tarif)
+);
+
+CREATE TABLE reservation (
+    Id_reservation INT(11) PRIMARY KEY AUTO_INCREMENT,
+    Code_reservation VARCHAR(100),
+    Date_heure_reservation DATETIME,
+    Date_arrivee DATE,
+    Date_depart DATE,
+    Nbr_jours INT(11),
+    Nbr_adultes_enfants INT(11),
+    Montant_total DECIMAL(10,2),
+    Etat VARCHAR(30),
+    Id_client INT(11),
+    Id_chambre INT(11),
+    FOREIGN KEY (Id_client) REFERENCES client(Id_Client),
+    FOREIGN KEY (Id_chambre) REFERENCES chambre(Id_chambre)
+);
+
+CREATE TABLE client (
+    Id_Client INT(11) PRIMARY KEY AUTO_INCREMENT,
+    Nom_complet VARCHAR(100),
+    Sexe CHAR(10),
+    Date_naissance DATE,
+    Age INT(11),
+    Pays VARCHAR(100),
+    Ville VARCHAR(100),
+    Adresse VARCHAR(100),
+    Telephone VARCHAR(15),
+    Email VARCHAR(100),
+    Autres_details TEXT
+);
+
+CREATE TABLE tarif_chambre (
+    Id_tarif INT(11) PRIMARY KEY AUTO_INCREMENT,
+    Prix_base_nuit DECIMAL(10,2),
+    Prix_base_passage DECIMAL(10,2),
+    N_Prix_nuit DECIMAL(10,2),
+    N_Prix_passage DECIMAL(10,2)
+);
+
+CREATE TABLE type_chambre (
+    Id_type INT(11) PRIMARY KEY AUTO_INCREMENT,
+    Type_chambre VARCHAR(50),
+    Description_type TEXT,
+    Photo_type TEXT
+);
+
+CREATE TABLE capacite_chambre (
+    Id_capacite INT(11) PRIMARY KEY AUTO_INCREMENT,
+    Titre_capacite VARCHAR(50),
+    Numero_capacite INT(11)
+);
